@@ -27,12 +27,16 @@
     "domains": {
       "next": "recommended",
       "react": "recommended"
+    },
+    "suspicious": {
+      "noExplicitAny": "off"
     }
   },
   "assist": {
+    "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "on"
+        "organizeImports": "off"
       }
     }
   }
