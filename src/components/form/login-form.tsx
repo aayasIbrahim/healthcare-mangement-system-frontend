@@ -1,23 +1,50 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, SplinePointer } from "lucide-react";
 import { Input } from "../ui/input";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
 import { loginSchema } from "@/validation";
+import { useLogin } from "@/hooks";
+import { toast } from "../ui/toast";
+import { useRouter } from "next/navigation";
+import { Spinner } from "../ui/spinner";
 function LoginForm() {
+  const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const { mutate: login, isPending } = useLogin();
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "testeradmin@gmail.com",
+      password: "Tester@admin12345",
     },
     validators: {
       onSubmit: loginSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
+      const loginData = {
+        email: value.email,
+        password: value.password,
+      };
+      login(loginData, {
+        onSuccess: (res) => {
+          toast.add({
+            title: "Login Success",
+            description: "Welcome back",
+            type: "success",
+          });
+          router.push("/");
+        },
+        onError: (err) => {
+          toast.add({
+            title: "Authorization failure",
+            description:
+              err.message || "Something went wrong. Please try again",
+            type: "error",
+          });
+        },
+      });
     },
   });
   return (
@@ -118,13 +145,15 @@ function LoginForm() {
               );
             }}
           </form.Field>
-          <Button
-            type="submit"
-            size="lg"
-            className="mt-1 h-11 w-full rounded-lg"
-          >
-            Continue
-            <ArrowRight aria-hidden="true" className="ml-auto size-4" />
+          
+          <Button disabled={isPending} type="submit">
+            {isPending ? (
+              <>
+                <Spinner /> submitting
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </FieldGroup>
       </form>

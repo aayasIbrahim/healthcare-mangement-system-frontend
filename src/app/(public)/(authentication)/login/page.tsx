@@ -15,7 +15,7 @@ export default function LoginPage() {
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GalleryVerticalEnd className="size-4" />
             </div>
-            Acme Inc.
+            HealthCare Ltd.
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
