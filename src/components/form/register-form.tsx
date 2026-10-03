@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-
+import { Spinner } from "@/components/ui/spinner";
 
 import z from "zod";
 import { useRegistration } from "@/hooks";
@@ -37,7 +37,7 @@ export function RegisterForm() {
     confirmPassword: "@User123456",
   };
 
-  const { mutate: registration } = useRegistration();
+  const { mutate: registration, isPending } = useRegistration();
 
   const form = useForm({
     defaultValues,
@@ -264,7 +264,21 @@ export function RegisterForm() {
             }}
           </form.Field>
 
-          <Button type="submit">Submit</Button>
+          <Button
+            disabled={isPending}
+            type="submit"
+            className="mt-1 h-12 w-full justify-between rounded-xl bg-[#176b5b] px-5 text-sm font-semibold text-white shadow-md shadow-[#176b5b]/15 hover:bg-[#12594c]"
+          >
+            {isPending ? (
+              <span className="flex items-center gap-2">
+                <Spinner />
+                Creating account
+              </span>
+            ) : (
+              "Create account"
+            )}
+            {!isPending && <ArrowRight aria-hidden="true" className="size-4" />}
+          </Button>
         </FieldGroup>
       </form>
 

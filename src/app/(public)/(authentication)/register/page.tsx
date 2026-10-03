@@ -43,11 +43,11 @@ export default function RegisterPage() {
       </section>
 
       <aside className="relative hidden min-h-svh overflow-hidden bg-[#173c35] lg:block">
-        <Image
+        <img
           src="/register.jpg"
           alt="Healthcare professional welcoming a new patient"
-          fill
-          priority
+          // fill
+          // priority
           sizes="54vw"
           className="object-cover"
         />
