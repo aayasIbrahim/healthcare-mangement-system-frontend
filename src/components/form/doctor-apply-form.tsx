@@ -29,6 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  doctorApplicationSchema,
   isAcceptedFileSize,
   isAcceptedFileType,
   MAX_ADDITIONAL_FILES,
@@ -77,7 +78,9 @@ export default function DoctorApplyForm() {
       resume: null as File | null,
       additionalFiles: [] as File[],
     },
-
+    validators: {
+      onSubmit: doctorApplicationSchema,
+    },
     onSubmit: async ({ value }) => {
       const doctorData: DoctorApplicationData = {
         user: {
