@@ -7,13 +7,17 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 import { useEffect, useState } from "react";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { useVerifyAccount } from "@/hooks";
+import { useVerifyAccount, useVerifyDoctorAccount } from "@/hooks";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
 
 const RESEND_COOLDOWN = 120;
 
-export default function VerifyAccountForm() {
+export default function VerifyAccountForm({
+  mode = "patient",
+}: {
+  mode: "doctor" | "patient";
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -21,8 +25,13 @@ export default function VerifyAccountForm() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [resendTimer, setResendTimer] = useState(RESEND_COOLDOWN);
 
-  const { mutate: verify, isPending: verifyPending } = useVerifyAccount();
-
+  const { mutate: verifyPatient, isPending: isPatientVerifyPending } =
+    useVerifyAccount();
+  const { mutate: verifyDoctor, isPending: isDoctorVerifyPending } =
+    useVerifyDoctorAccount();
+  const verify = mode === "doctor" ? verifyDoctor : verifyPatient;
+  const verifyPending =
+    mode === "doctor" ? isDoctorVerifyPending : isPatientVerifyPending;
   const email = searchParams.get("email") || "";
 
   useEffect(() => {
@@ -62,6 +71,18 @@ export default function VerifyAccountForm() {
             description: "Something went wrong. Please try again",
             type: "error",
           });
+        }
+
+        if (mode === "doctor") {
+          toast.add({
+            title: "Verification Successful",
+            description:
+              "An admin will approve your account. This may take time. Please check your email in few days",
+            type: "success",
+          });
+          router.push("/");
+
+          return;
         }
 
         toast.add({
@@ -143,7 +164,9 @@ export default function VerifyAccountForm() {
             </InputOTPGroup>
           </InputOTP>
           {isInvalid && (
-            <FieldError errors={[{ message: "Invalid code. Please try again" }]} />
+            <FieldError
+              errors={[{ message: "Invalid code. Please try again" }]}
+            />
           )}
           <FieldDescription className="text-sm text-muted-foreground">
             Resend code in {resendTimer}s
@@ -164,7 +187,9 @@ export default function VerifyAccountForm() {
           ) : (
             "Verify email"
           )}
-          {!verifyPending && <ArrowRight aria-hidden="true" className="size-4" />}
+          {!verifyPending && (
+            <ArrowRight aria-hidden="true" className="size-4" />
+          )}
         </Button>
       </form>
     </div>
