@@ -3,25 +3,14 @@
 import { useGetMe } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
-
-
-import AccessDenied from "./access-denied";
 import AuthLoading from "./auth-loading";
-import { UserRole } from "@/types/user.type";
 
-interface IProps {
-  children: ReactNode;
-  roles: UserRole[];
-}
-
-export default function RoleGuard({ children, roles }: IProps) {
+export default function AuthGuard({ children }: { children: ReactNode }) {
   const router = useRouter();
 
   const { data, isPending, isError } = useGetMe();
 
   const user = data?.data;
-
-  const isAuthorized = !!user && roles.includes(user.role);
 
   useEffect(() => {
     if (isPending) {
@@ -40,9 +29,5 @@ export default function RoleGuard({ children, roles }: IProps) {
     return <AuthLoading label="Redirecting..." />;
   }
 
-  if (isAuthorized) {
-    return <>{children}</>;
-  }
-
-  return <AccessDenied />;
+  return <>{children}</>;
 }
