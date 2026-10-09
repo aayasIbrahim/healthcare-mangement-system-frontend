@@ -1,4 +1,4 @@
-import * as React from "react";
+"use client"
 
 import {
   Sidebar,
@@ -16,8 +16,9 @@ import Link from "next/link";
 import Logo from "../../../assets/svg/logo";
 
 import { SidebarItems, UserRole } from "@/types";
-import { usePathname } from "next/navigation";
+
 import { adminRoutes, doctorRoutes, patientRoutes } from "@/routes";
+import { usePathname } from "next/navigation";
 
 const sidebarRoutes: Partial<Record<UserRole, SidebarItems>> = {
   SUPER_ADMIN: adminRoutes,

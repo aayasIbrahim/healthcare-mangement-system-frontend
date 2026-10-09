@@ -1,6 +1,6 @@
 
-import Footer from "@/components/layout/public/Footer";
-import Header from "@/components/layout/public/Header";
+import Footer from "@/components/public/Footer";
+import Header from "@/components/public/Header";
 import { ReactNode } from "react";
 
 
