@@ -22,3 +22,16 @@ export function verifyDoctorAccount(payload: VerifyAccountPayload) {
     body: payload,
   });
 }
+
+export function getAllDoctors(params: DoctorParams) {
+  return apiClient<ApiResponse<Doctor[]>>("/doctor/all-doctors", {
+    params,
+  });
+}
+
+export function approveDoctor(payload: ApproveDoctorPayload) {
+  return apiClient("/doctor/approve-doctor", {
+    method: "POST",
+    body: payload,
+  });
+}
