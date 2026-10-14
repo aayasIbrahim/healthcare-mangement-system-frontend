@@ -38,7 +38,7 @@ export default function DoctorApprovalTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {doctors.map((doctor: any) => (
+          {doctors.map((doctor) => (
             <TableRow key={doctor.id}>
               <TableCell>{doctor.name}</TableCell>
               <TableCell>{doctor.licenseNumber}</TableCell>
