@@ -11,18 +11,23 @@ import { useSuspenseGetAllDoctors } from "@/hooks";
 import { DoctorParams, DoctorVerificationStatus } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
+import TablePagination from "@/components/ui/table-pagination";
 
 interface Props extends DoctorParams {
   handleReview: Dispatch<SetStateAction<string>>;
+  handlePageChange: Dispatch<SetStateAction<number>>;
 }
 
 export default function DoctorApprovalTable({
   handleReview,
+  handlePageChange,
   ...params
 }: Props) {
   const { data } = useSuspenseGetAllDoctors(params);
 
-  const doctors = data?.data;
+  const doctors = data?.data ?? [];
+  const totalPages = data?.meta?.totalPages ?? 0;
+  const isEmpty = doctors.length === 0;
 
   return (
     <div className="border rounded-lg">
@@ -67,6 +72,15 @@ export default function DoctorApprovalTable({
           ))}
         </TableBody>
       </Table>
+      {totalPages > 1 && (
+        <div className="my-5">
+          <TablePagination
+            page={params.page ?? 1}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   );
 }
