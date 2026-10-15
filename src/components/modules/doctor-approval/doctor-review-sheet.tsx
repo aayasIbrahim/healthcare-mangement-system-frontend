@@ -27,7 +27,7 @@ export default function DoctorReviewSheet({
   const [rejectionReason, setRejectionReason] = useState("");
 
   const { data } = useGetAllDoctors(params);
-  const { mutate: verify, isPending } = useApproveDoctor(params);
+  const { mutate: verify, isPending } = useApproveDoctor();
 
   const selectedDoctor = data?.data?.find(
     (doctor: any) => doctor.id === selectedId,
