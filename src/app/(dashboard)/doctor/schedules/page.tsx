@@ -1,5 +1,4 @@
-import ScheduleListLoading from "@/components/modules/doctor-schedule/schedule-list-loading";
-
+import ScheduleList from "@/components/modules/doctor-schedule/Schedule-list";
 
 
 export default function page() {
@@ -9,7 +8,7 @@ export default function page() {
         <h1 className="text-2xl">My schedules</h1>
         <p>Create schedules, publish them for booking, or delete drafts.</p>
       </div>
-      <ScheduleListLoading />
+      <ScheduleList />
     </section>
   );
 }

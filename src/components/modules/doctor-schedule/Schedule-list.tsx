@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
 import { Button } from "@/components/ui/button";
-// import ScheduleCreateDialog from "./schedule-create-dialog";
+import ScheduleCreateDialog from "./schedule-create-dialog";
 import { ScheduleParams, ScheduleStatus } from "@/types";
 import ScheduleListLoading from "./schedule-list-loading";
 import ScheduleTable from "./schedule-table";
