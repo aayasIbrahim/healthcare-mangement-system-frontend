@@ -1,6 +1,17 @@
-import { applyAsDoctor, approveDoctor, getAllDoctors, verifyDoctorAccount } from "@/api";
-import { DoctorParams } from "@/types";
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  applyAsDoctor,
+  approveDoctor,
+  getAllDoctors,
+  getAllPublicDoctors,
+  verifyDoctorAccount,
+} from "@/api";
+import { DoctorParams, PublicDoctorParams } from "@/types";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 
 export function useApplyAsDoctor() {
   return useMutation({
@@ -35,5 +46,17 @@ export function useApproveDoctor() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["doctors"] });
     },
+  });
+}
+export function useGetAllPublicDoctors(params: PublicDoctorParams) {
+  return useQuery({
+    queryKey: ["doctor", "public", params],
+    queryFn: () => getAllPublicDoctors(params),
+  });
+}
+export function useSuspenseGetPublicDoctors(params: PublicDoctorParams) {
+  return useSuspenseQuery({
+    queryKey: ["doctors", "public", params],
+    queryFn: () => getAllPublicDoctors(params),
   });
 }
